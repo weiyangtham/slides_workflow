@@ -1,0 +1,96 @@
+---
+title: "Mass and Height in Star Wars"
+author: "Wei Yang Tham<br><span style = 'font-size: 70%;'>Laboratory for Innovation Sciences at Harvard</span>"
+knit: (function(input_file, encoding) {
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), 'index.html'))})
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      titleSlideClass: [left, middle]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+  comment = NA, dpi = 300, echo = FALSE, cache = FALSE,
+  fig.align = "center", out.width = "90%", fig.asp = 0.618)
+```
+
+```{r packages}
+library(tidyverse)
+library(magrittr)
+library(here)
+library(colorspace)
+library(patchwork)
+library(ggtext)
+```
+
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+duo(
+  # primary_color = "#FDFFF1",
+  primary_color = "#ECECEC",
+  secondary_color = "#2a488e",
+  text_color = "#000000",
+  title_slide_text_color = "#000000", 
+  # secondary_color = "#4671d6",
+  # text_color = "#2C3E50",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Droid Mono"),
+  text_font_size = "25px", 
+  text_slide_number_font_size = "0.0em"
+)
+```
+
+```{r plots-setup}
+theme_wyt <- function(base_size = 11, base_family = "Josefin Sans", base_line_size = base_size/22, base_rect_size = base_size/22){
+  ggthemes::theme_fivethirtyeight(base_size = base_size,
+                                  base_family = base_family) %+replace%
+    theme(
+      plot.background = element_rect(fill = "#FDFFF1", colour = "#FDFFF1"),
+      panel.background = element_rect(fill = "#FDFFF1", colour = "#FDFFF1"),
+      title = element_text(colour = "black"),
+      plot.title.position = "plot",
+      axis.title = element_text(), 
+      legend.background = element_rect(fill = "#FDFFF1"), 
+      legend.key = element_rect(fill = "#FDFFF1")
+    )
+}
+theme_set(theme_wyt(base_size = 16))
+lab.y = "~log points"
+lab.x = "Month"
+lab.x.year = "Years since renewal"
+lab.y.empbypi = "Pr(Paid by same PI)"
+lab.y.empanygrant = "Pr(Paid by any grant)"
+scale_colour_discrete <- function(...) scale_color_discrete_qualitative(palette="Dark 3")
+scale_fill_discrete <- function(...) scale_fill_discrete_qualitative(palette="Dark 3")
+```
+
+class: middle
+
+# Research Question
+
+Not much is known about the relationship between height and mass in Star Wars
+
+---
+
+```{r}
+coefs = read_csv(here::here("results/hgtmass.csv"))
+
+coefs %>% 
+  ggplot(aes(human, estimate)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high)) + 
+  labs(title = "Now much is known")
+```
+
