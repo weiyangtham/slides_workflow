@@ -1,10 +1,6 @@
 ---
 title: "Mass and Height in Star Wars"
 author: "Wei Yang Tham<br><span style = 'font-size: 70%;'>Laboratory for Innovation Sciences at Harvard</span>"
-knit: (function(input_file, encoding) {
-  rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), 'index.html'))})
 output:
   xaringan::moon_reader:
     lib_dir: libs
