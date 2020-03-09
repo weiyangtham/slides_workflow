@@ -27,6 +27,11 @@ library(here)
 library(colorspace)
 library(patchwork)
 library(ggtext)
+
+there = function(subdir = ""){
+  root = rprojroot::find_root(rprojroot::has_file("slides_workflow.Rproj"))
+  file.path(root, subdir)
+}
 ```
 
 
@@ -81,7 +86,7 @@ Not much is known about the relationship between height and mass in Star Wars
 ---
 
 ```{r}
-coefs = read_csv(here::here("results/hgtmass.csv"))
+coefs = read_csv(there("results/hgtmass.csv"))
 
 coefs %>% 
   ggplot(aes(human, estimate)) + 
